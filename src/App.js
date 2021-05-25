@@ -4,6 +4,7 @@ import {Navbar,NavbarBrand} from 'reactstrap';
 import Menu from './components/MenuComponent';
 import {DISHES} from './shared/dishes';
 import './App.css';
+import Main from './components/MainComponent';
 // app is the parent class menu is the child class 
 // We are lifting up the state so that all the information is directly available in the parent class 
 //and any other child component can access it from here easily
@@ -11,21 +12,21 @@ import './App.css';
 // To do so we need to first create state for App also.
 
 class App extends Component {
-     constructor(props) {
-       super(props);
-       this.state = {
-            dishes:DISHES
-       }
-     }
+    //  constructor(props) {
+    //    super(props);
+    //    this.state = {
+    //         dishes:DISHES
+    //    }
+    //  }
 render() {
   return (
-    <div>
-       <Navbar dark color="primary">
+    <div className="App">
+       {/* <Navbar dark color="primary">
           <div className="container">
             <NavbarBrand href="/">RisTorante Confusion</NavbarBrand>
           </div>
-        </Navbar>
-        <Menu dishes={this.state.dishes} />
+        </Navbar> */}
+        <Main />
     </div>
   );
 }

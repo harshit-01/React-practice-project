@@ -1,3 +1,4 @@
+///////////////// Presentational Component /////////////////////////
 import React ,{Component} from 'react';
 import { Media } from 'reactstrap';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody,
@@ -6,15 +7,15 @@ import DishDetail from './DishdetailComponent';
 
 // Wants to access JS inside html use {}.
 class Menu extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedDish:null // created a prop here
-        };
-    };
-    onDishSelected(dish){
-        this.setState({selectedDish:dish}); // cannot directly change the state
-    }
+           constructor(props) {
+           super(props);
+    //     this.state = {
+    //         selectedDish:null // created a prop here
+    //     };
+     };
+    // onDishSelected(dish){
+    //     this.setState({selectedDish:dish}); // cannot directly change the state
+    // }
     renderDish(dish){
            if(dish!=null){
                     // return (<Card>
@@ -40,7 +41,7 @@ class Menu extends Component {
                              return(
                                  <div>
                                  <p>{co.comment}</p><br></br>
-                                 <p>--{co.author}, {co.date}</p><br></br>
+                                 <p>--{co.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(co.date)))}</p><br></br>
                                  </div>
                              )
                         })
@@ -54,12 +55,12 @@ class Menu extends Component {
         const menu = this.props.dishes.map((dish)=>{
             return (
                 <div key={dish.id} className="col-12 col-md-5 m-1"> 
-                { <Card onClick={()=>{this.onDishSelected(dish)}}>
+                 <Card key={dish.id} onClick={() => this.props.onClick(dish.id)}>
                     <CardImg width="100%" src={dish.image} alt={dish.name} />
                     <CardImgOverlay>
                         <CardTitle>{dish.name}</CardTitle>
                     </CardImgOverlay>
-                </Card>}
+                </Card>
               </div>
               );
         });
@@ -69,10 +70,10 @@ class Menu extends Component {
                     {menu};
                 </div>
                 <div className="zip col-12 col-md-5 m-1">
-                <span className="tip">{this.renderDish(this.state.selectedDish)}</span>
+                <span className="tip">{this.renderDish(this.props.dish)}</span>
                 <div className="pin">
                 <h4>Comments</h4>
-                <h6>{this.renderComments(this.state.selectedDish)}</h6>
+                <h6>{this.renderComments(this.props.dish)}</h6>
                 </div> 
                 </div>
             </div>
