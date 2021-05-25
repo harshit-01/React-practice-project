@@ -1,0 +1,12 @@
+@media (min-width:768px){
+.zip{
+    display:flex;
+}
+.pin{
+    margin-left:10px;
+}
+.tip{
+    font-size: 1.3rem;
+    width:100%;
+}
+}
