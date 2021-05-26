@@ -4,21 +4,17 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody,
     CardTitle } from 'reactstrap';
     
 
-class DishDetail extends Component{
-    constructor(props){
-           super(props);
-       }
-       render(){
+const DishDetail = (props) =>{
             return (
                 <Card>
-                     <CardImg top src={this.props.image} alt={this.props.name} />
+                     <CardImg top src={props.image} alt={props.name} />
                      <Card body>
-                         <CardTitle>{this.props.name}</CardTitle>  
-                         <CardText>{this.props.description}</CardText> 
+                         <CardTitle>{props.name}</CardTitle>  
+                         <CardText>{props.description}</CardText> 
                      </Card>
                  </Card>
                  );
-       }
 }
+
 
 export default DishDetail;
