@@ -5,6 +5,7 @@ import Menu from './components/MenuComponent';
 import {DISHES} from './shared/dishes';
 import './App.css';
 import Main from './components/MainComponent';
+import { BrowserRouter } from 'react-router-dom';
 // app is the parent class menu is the child class 
 // We are lifting up the state so that all the information is directly available in the parent class 
 //and any other child component can access it from here easily
@@ -20,14 +21,19 @@ class App extends Component {
     //  }
 render() {
   return (
-    <div className="App">
-       {/* <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/">RisTorante Confusion</NavbarBrand>
-          </div>
-        </Navbar> */}
+    // <div className="App">
+    //    {/* <Navbar dark color="primary">
+    //       <div className="container">
+    //         <NavbarBrand href="/">RisTorante Confusion</NavbarBrand>
+    //       </div>
+    //     </Navbar> */}
+    //     <Main />
+    // </div>
+    <BrowserRouter>
+      <div className="App">
         <Main />
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 }
