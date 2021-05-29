@@ -5,6 +5,7 @@ import Menu from './MenuComponent';
 import DishDetail from './DishdetailComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+import About from './AboutComponent';
 import {DISHES} from '../shared/dishes';
 import {PROMOTIONS} from '../shared/promotions';
 import {LEADERS} from '../shared/leaders';
@@ -59,7 +60,7 @@ render() {
         <Route path="/home" component ={Homepage} />
         <Route exact path="/menu" component ={()=><Menu dishes={this.state.dishes} dish={this.state.dishes.filter((dish) =>dish.id === this.state.selectedDish)[0]} comment={this.state.comments} onClick={(dishId)=>{this.onDishSelected(dishId)}} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
-        {/* <Route exact path="/aboutUs" component ={aboutUs} /> */}
+        <Route exact path="/aboutUs" component ={()=><About leaders={this.state.leaders} />} />
         <Route exact path="/contactUs" component ={Contact} />
         <Redirect to="/home" />
        </Switch>
