@@ -3,13 +3,9 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 
 
-
-function About(props) {
-    // <p>Leader {leader.name}</p>
-    //console.log(props.leader)
-    const leaders = props.leaders.map((leader) => {
-        return (
-            <div className="col-12 col-md-8 m-2">
+function RenderLeader({leader}){
+    return(
+             <div className="col-12 col-md-8 m-2">
             <Media tag="li">
                 <Media left href="#">
                     <Media object src="https://surakhchin.github.io/conFusion/images/alberto.png" alt={leader.name}></Media>
@@ -22,6 +18,15 @@ function About(props) {
                 </Media>
             </Media>
             </div>
+    )
+}
+
+function About(props) {
+    // <p>Leader {leader.name}</p>
+    //console.log(props.leader)
+    const leaders = props.leaders.map((leader) => {
+        return (
+              <RenderLeader leader={leader} />
         );
     });
 
