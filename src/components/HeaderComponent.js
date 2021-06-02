@@ -1,19 +1,32 @@
 import React ,{Component} from 'react';
 import { NavLink } from 'react-router-dom';
-import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,Button,Modal, ModalHeader,ModalBody,
+    Form, FormGroup, Input, Label } from 'reactstrap';
 
 // For grouping together large no of elements use React.Fragments
 class Header extends Component {
            constructor(props){
                super(props);
-               this.toggleNavbar = this.toggleNavbar.bind(this);
                this.state={
-                   isNavOpen: false
+                   isNavOpen: false,
+                   isModalOpen:false
                }
+               this.toggleNavbar = this.toggleNavbar.bind(this);
+               this.toggleModal = this.toggleModal.bind(this);
+               this.handleLogin = this.handleLogin.bind(this);
+
            }
            toggleNavbar(){
                this.setState({ isNavOpen:!this.state.isNavOpen });
            }
+           toggleModal(){
+            this.setState({ isModalOpen:!this.state.isModalOpen });
+           }
+            handleLogin(event){
+                this.toggleModal();
+                alert('Logged in')
+                event.preventDefault();
+            }
            render(){
                return(
                 <React.Fragment>
@@ -37,9 +50,43 @@ class Header extends Component {
                                 <NavLink className="nav-link" to='/contactUs'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
                             </NavItem>
                             </Nav>
+                            <Nav className="ml-auto" navbar>
+                                 <NavItem>
+                                     <Button outline onClick={this.toggleModal} color="primary"><span className="fa fa-sign-in fa-lg"></span> Login</Button>{console.log(this.state.isModalOpen)}
+                                 </NavItem>
+                            </Nav>
                             </Collapse>
                         </div>
                     </Navbar>
+                    <Modal isOpen={this.state.isModalOpen} toggle= {this.toggleModal}>
+                        <ModalHeader toggle= {this.toggleModal}> 
+                        {/* because user might click on cross to close modal */}
+                             Login
+                        </ModalHeader>
+                        <ModalBody>
+                            <Form onSubmit={this.handleLogin}>
+                                <FormGroup row>
+                                    <Label htmlFor="username">Username</Label>
+                                    <Input name="username" id="username" type="text" innerRef={(input) => this.username = input}></Input>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label htmlFor="password">Password</Label>
+                                    <Input name="password" id="password" type="text" innerRef={(input) => this.password = input}></Input>
+                                </FormGroup>
+                                <FormGroup check>
+                                <Label check>
+                                    <Input type="checkbox" name="remember"
+                                    innerRef={(input) => this.remember = input}  />
+                                    Remember me
+                                </Label>
+                            </FormGroup>
+                                <FormGroup row>
+                                    <Button type="submit" value="submit" color="primary"><span className="fa fa-sign-in fa-lg"></span>Login</Button>
+                                </FormGroup>
+                            </Form>
+
+                        </ModalBody>
+                    </Modal>
                     <Jumbotron>
                         <div className="container">
                             <div className="row">
