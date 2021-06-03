@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 
 
 const required = (val)=>val&&val.length;
-const minLength = (len)=>(val)=>(val) && (val.length>=len);
+const minLength = (len)=>(val)=>{console.log(val)
+    return (val) && (val.length>=len)}; // here we use and operator instead of Or because val at the start is undefined and if we use Or then either val needs to be true or val.length needs to be true.But val.length can not be calculated at the start as val is undefined .  Hence here both conditions has to be true simultaneously. 
 const maxLength = (len)=>(val)=>!(val) || (val.length<=len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
@@ -173,7 +174,7 @@ class Contact extends Component{
                                         Send Feedback
                                     </Button>
                                 </Col>
-                            </Row>
+                        </Row>
                     </LocalForm>
                 </div>
 
