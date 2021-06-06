@@ -10,6 +10,7 @@ import DishDetail from './DishdetailComponent';
 const required = (val)=>(val)&&(val.length);
 const minLength = (len)=>(val)=>(val)&&(val.length>=len);
 const maxLength = (len)=>(val)=>(!val)||(val.length<=len);
+
 class CommentForm extends React.Component {
     constructor(props) {
         super(props);
@@ -20,8 +21,16 @@ class CommentForm extends React.Component {
         this.handleSubmit= this.handleSubmit.bind(this);
     }
     handleSubmit(values) {
+        this.toggleHandle();
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        var node = document.createElement('li');
+        // var date = new Date();
+        var date =new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date())
+        console.log(date)
+        node.innerHTML =`Rating:${(values.rating)}`+'<br/>'+date+'<br/>'+'Name:'+(values.YourName) +'<br />'+'Comment :'+(values.comment);
+        console.log(node);
+        document.addEventListener('submit',()=>document.getElementById('comment').appendChild(node));
+        //alert('Current State is: ' + JSON.stringify(values));
         // event.preventDefault();
     }
     toggleHandle(){
@@ -63,9 +72,9 @@ class CommentForm extends React.Component {
                                     </Col>
                              </Row>
                              <Row className="form-group">
-                                 <Label md={4} htmlFor="message">Comment</Label>&nbsp;
+                                 <Label md={4} htmlFor="comment">Comment</Label>&nbsp;
                                  <Col md={12}>
-                                      <Control.textarea model=".message" id="message" name="message" Row="6" className="form-control"></Control.textarea>
+                                      <Control.textarea model=".comment" id="comment" name="comment" Row="6" className="form-control"></Control.textarea>
                                  </Col>
                              </Row>
                              <Row className="form-group">
@@ -78,6 +87,7 @@ class CommentForm extends React.Component {
                          </LocalForm>
                     </ModalBody>
                 </Modal>
+                
                 <Button type="submit" value="Submit" onClick={this.toggleHandle}><i class="fa fa-pencil" aria-hidden="true"> Submit Comment</i></Button>
             </div>
         )
@@ -105,11 +115,11 @@ function renderDish(dish){
                 }
     }
 
-function renderComments(comment){
+function renderComments(comment,addComment,dishId){
     if(comment!=null){
        console.log(comment);
          return(
-             <div>
+             <div id="comment">
                { comment.comments.map((co)=>{
                    //console.log(co['comment']);
                     return(
@@ -119,7 +129,7 @@ function renderComments(comment){
                         </div>
                     )
                })}
-               <CommentForm/>
+               <CommentForm addComment={addComment} dishId={dishId}/>
                </div>
          )
          
@@ -158,7 +168,7 @@ const Menu = (props) => {
         <span className="tip">{renderDish(props.dish)}</span>
         <div className="pin">
         <h4>Comments</h4>
-        <h6 >{renderComments(props.dish)}</h6>
+        <h6 >{renderComments(props.dish,props.addComment,props.dishId)}</h6>
         </div> 
         </div>
     </div>

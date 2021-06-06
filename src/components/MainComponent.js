@@ -14,6 +14,7 @@ import Contact from './ContactComponent';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {addComment} from '../redux/ActionCreators';
 import '../App.css';
 // app is the parent class menu is the child class 
 // We are lifting up the state so that all the information is directly available in the parent class 
@@ -28,7 +29,9 @@ const mapStateToProps = (state) => {
   selectedDish: null
   }
 }
-
+const mapDispatchToProps = (dispatch)=>({
+      addComment:(dishId,rating,author,comment)=>{dispatch(addComment(dishId,rating,author,comment))}
+})
 class Main extends Component {
      constructor(props) {
        super(props);
@@ -50,7 +53,8 @@ render() {
     return(
        
         <Menu dishes={this.props.dishes} dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
-          comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+          comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} 
+          addComment = {this.props.addComment} dishId={this.props.addComment.dishId}/>
     );
   };
 
@@ -73,5 +77,5 @@ render() {
 }
 
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
 
