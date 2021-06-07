@@ -1,6 +1,5 @@
-import React ,{Component} from 'react';
-import { Media } from 'reactstrap';
-import { Card, CardImg, CardText, CardBody,
+import React from 'react';
+import { Card, CardImg, CardText,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
     

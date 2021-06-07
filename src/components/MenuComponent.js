@@ -1,13 +1,13 @@
 ///////////////// Presentational Component /////////////////////////
-import React ,{Component} from 'react';
-import { Media} from 'reactstrap';
+import React from 'react';
 import { Card, CardImg, CardImgOverlay,
     CardTitle, Breadcrumb, BreadcrumbItem,Button,Row, Col, Label,Modal, ModalHeader,ModalBody,} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import DishDetail from './DishdetailComponent';
+import { Loading } from './LoadingComponent';
 
-const required = (val)=>(val)&&(val.length);
+//const required = (val)=>(val)&&(val.length);
 const minLength = (len)=>(val)=>(val)&&(val.length>=len);
 const maxLength = (len)=>(val)=>(!val)||(val.length<=len);
 
@@ -26,9 +26,9 @@ class CommentForm extends React.Component {
         var node = document.createElement('li');
         // var date = new Date();
         var date =new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date())
-        console.log(date)
-        node.innerHTML =`Rating:${(values.rating)}`+'<br/>'+date+'<br/>'+'Name:'+(values.YourName) +'<br />'+'Comment :'+(values.comment);
-        console.log(node);
+       // console.log(date)
+        node.innerHTML =`Rating:${(values.rating)}${'<br/>'} ${date} ${'<br/>'}'Name:'${values.YourName}${'<br />'}${'Comment :'}${values.comment}`;
+        //console.log(node);
         document.addEventListener('submit',()=>document.getElementById('comment').appendChild(node));
         //alert('Current State is: ' + JSON.stringify(values));
         // event.preventDefault();
@@ -95,6 +95,27 @@ class CommentForm extends React.Component {
 }
 
 function RenderMenuItem ({dish, onClick}) {
+    if (dish.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (dish.errMess) {
+        return(
+            <div className="container">
+                <div className="row"> 
+                    <div className="col-12">
+                        <h4>{dish.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    else{
     return (
         <Card>
         <Link to={`/menu/${dish.id}`}>
@@ -105,14 +126,31 @@ function RenderMenuItem ({dish, onClick}) {
        </Link>
        </Card>
     );
+    }
 }
-function renderDish(dish){
-                if(dish!=null){
-                        return (<DishDetail name={dish.name} description={dish.description} image={dish.image}/>)
-                }
-                else{
-                    return (<div></div>);
-                }
+
+function renderDish(dish,isLoading,errMess){
+    if (isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (errMess) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <h4>{errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+    else {
+    return (<DishDetail name={dish[0].name} description={dish[0].description} image={dish[0].image}/>)
+        }
     }
 
 function renderComments(comment,addComment,dishId){
@@ -165,7 +203,7 @@ const Menu = (props) => {
             {menu};
         </div>
         <div className="zip col-12 col-md-5 m-1">
-        <span className="tip">{renderDish(props.dish)}</span>
+        <span className="tip">{renderDish(props.dishes,props.isLoading,props.errMess)}</span>
         <div className="pin">
         <h4>Comments</h4>
         <h6 >{renderComments(props.dish,props.addComment,props.dishId)}</h6>
