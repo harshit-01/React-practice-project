@@ -6,6 +6,8 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import DishDetail from './DishdetailComponent';
 import { Loading } from './LoadingComponent';
+import {baseUrl} from '../shared/baseUrl';
+
 
 //const required = (val)=>(val)&&(val.length);
 const minLength = (len)=>(val)=>(val)&&(val.length>=len);
@@ -119,7 +121,7 @@ function RenderMenuItem ({dish, onClick}) {
     return (
         <Card>
         <Link to={`/menu/${dish.id}`}>
-           <CardImg width="100%" src={dish.image} alt={dish.name} />
+           <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
            <CardImgOverlay>
                <CardTitle>{dish.name}</CardTitle>
            </CardImgOverlay>
@@ -130,7 +132,7 @@ function RenderMenuItem ({dish, onClick}) {
 }
 
 function renderDish(dish,isLoading,errMess){
-    if (isLoading) {
+    if (isLoading || dish === undefined) {
         return(
             <div className="container">
                 <div className="row">            
@@ -149,29 +151,32 @@ function renderDish(dish,isLoading,errMess){
         );
     }
     else {
-    return (<DishDetail name={dish[0].name} description={dish[0].description} image={dish[0].image}/>)
+    return (<DishDetail name={dish.name} description={dish.description} image={baseUrl + dish.image}/>)
         }
     }
 
 function renderComments(comment,addComment,dishId){
+    // console.log(dishId);
     if(comment!=null){
-       console.log(comment);
+         //console.log(comment);
          return(
-             <div id="comment">
-               { comment.comments.map((co)=>{
-                   //console.log(co['comment']);
-                    return(
-                        <div>
-                        <p>{co.comment}</p><br></br>
-                        <p>--{co.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(co.date)))}</p><br></br>
-                        </div>
-                    )
-               })}
+             <div id="comment" classname="col-12 col-md-5 m-1"> 
+                    <div>
+                    <ul> 
+                        <li>Imagine all the eatables, living in conFusion!,</li>
+                        <p>--John Lemon, 2012-10-16</p><br></br>
+                        <li>Sends anyone to heaven, I wish I could get my mother-in-law to eat it!</li>
+                        <p>--Paul McVites, 2014-09-05</p><br></br>
+                        <li>Eat it, just eat it!</li>
+                        <p>--Michael Jaikishan, 2015-02-05</p><br></br>
+                        <li>Ultimate, Reaching for the stars!</li>
+                        <p>--Ringo Starry,2011-12-02"</p><br></br>
+                        </ul><br></br>
+                    </div>
                <CommentForm addComment={addComment} dishId={dishId}/>
                </div>
-         )
-         
-    }
+            )
+        }
     else{
         return (<div></div>);
     }
@@ -203,7 +208,7 @@ const Menu = (props) => {
             {menu};
         </div>
         <div className="zip col-12 col-md-5 m-1">
-        <span className="tip">{renderDish(props.dishes,props.isLoading,props.errMess)}</span>
+        <span className="tip">{renderDish(props.dish,props.isLoading,props.errMess)}</span>
         <div className="pin">
         <h4>Comments</h4>
         <h6 >{renderComments(props.dish,props.addComment,props.dishId)}</h6>

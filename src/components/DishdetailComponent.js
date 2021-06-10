@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, CardImg, CardText,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {baseUrl} from '../shared/baseUrl';
+
     
 
 const DishDetail = (props) =>{
@@ -13,7 +15,7 @@ const DishDetail = (props) =>{
                         <BreadcrumbItem active>{props.name}</BreadcrumbItem>
                     </Breadcrumb>
                 <Card>
-                     <CardImg top src={props.image} alt={props.name} />
+                     <CardImg top src={baseUrl + props.image} alt={props.name} />
                      <Card body>
                          <CardTitle>{props.name}</CardTitle>  
                          <CardText>{props.description}</CardText> 
