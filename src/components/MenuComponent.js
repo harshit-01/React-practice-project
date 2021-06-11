@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import DishDetail from './DishdetailComponent';
 import { Loading } from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
+import {Fade, Stagger } from 'react-animation-components';
 
 
 //const required = (val)=>(val)&&(val.length);
@@ -160,9 +161,11 @@ function renderComments(comment,addComment,dishId){
     if(comment!=null){
          //console.log(comment);
          return(
+            <Stagger in>
              <div id="comment" classname="col-12 col-md-5 m-1"> 
                     <div>
                     <ul> 
+                        <Fade in>
                         <li>Imagine all the eatables, living in conFusion!,</li>
                         <p>--John Lemon, 2012-10-16</p><br></br>
                         <li>Sends anyone to heaven, I wish I could get my mother-in-law to eat it!</li>
@@ -171,10 +174,12 @@ function renderComments(comment,addComment,dishId){
                         <p>--Michael Jaikishan, 2015-02-05</p><br></br>
                         <li>Ultimate, Reaching for the stars!</li>
                         <p>--Ringo Starry,2011-12-02"</p><br></br>
+                        </Fade>
                         </ul><br></br>
                     </div>
                <CommentForm addComment={addComment} dishId={dishId}/>
                </div>
+               </Stagger>
             )
         }
     else{

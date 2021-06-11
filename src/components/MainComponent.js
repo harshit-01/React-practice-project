@@ -10,6 +10,7 @@ import { Switch, Route, Redirect,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { actions } from 'react-redux-form';
 import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import '../App.css';
 // app is the parent class menu is the child class 
 // We are lifting up the state so that all the information is directly available in the parent class 
@@ -76,7 +77,9 @@ render() {
   return (
     <div>
        <Header />
-       <Switch>
+       <TransitionGroup>
+        <CSSTransition key ={this.props.location.key} classNames ="page" timeout ={300}>
+       <Switch location={this.props.location}>
         <Route path="/home" component ={Homepage} />
         <Route exact path="/menu" component ={()=><Menu dishes={this.props.dishes.dishes} dish={this.props.dishes.dishes.filter((dish) =>dish.id === this.props.selectedDish)[0]} comment={this.props.comments} onClick={(dishId)=>{this.onDishSelected(dishId)}} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
@@ -84,6 +87,8 @@ render() {
         <Route exact path="/contactUs" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}/>
         <Redirect to="/home" />
        </Switch>
+       </CSSTransition>
+       </TransitionGroup>
         {/* <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} /> */}
         <Footer />
     </div>
