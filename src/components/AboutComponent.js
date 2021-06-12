@@ -1,9 +1,22 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
+import { Stagger , Fade } from 'react-animation-components';
 
 
-function RenderLeader({leader}){
+function RenderLeader({leader , isLoading, errMess}){
+    if(isLoading){
+        return(
+            <Loading />
+    );
+    }
+    else if(errMess){
+        return(
+            <h4>{errMess}</h4>
+    );
+    }
+    else{
     return(
              <div className="col-12 col-md-8 m-2">
             <Media tag="li">
@@ -19,14 +32,15 @@ function RenderLeader({leader}){
             </Media>
             </div>
     )
+    }
 }
 
 function About(props) {
     // <p>Leader {leader.name}</p>
-    //console.log(props.leader)
+    console.log(props.leaders)
     const leaders = props.leaders.map((leader) => {
         return (
-              <RenderLeader leader={leader} />
+              <RenderLeader leader={leader} isLoading={props.isLoading} errMessage={props.errMessage}/>
         );
     });
 
@@ -80,16 +94,20 @@ function About(props) {
                     </Card>
                 </div>
             </div>
+            <Stagger in>
             <div className="row row-content">
                 <div className="col-12">
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
+                    <Fade in>
                     <Media list>
                         {leaders}
                     </Media>
+                    </Fade>
                 </div>
             </div>
+            </Stagger>
         </div>
     );
 }

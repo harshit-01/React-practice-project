@@ -5,6 +5,7 @@ import { Control, Form, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
 
+
 const required = (val)=>val&&val.length;
 const minLength = (len)=>(val)=>{console.log(val)
     return (val) && (val.length>=len)}; // here we use and operator instead of Or because val at the start is undefined and if we use Or then either val needs to be true or val.length needs to be true.But val.length can not be calculated at the start as val is undefined .  Hence here both conditions has to be true simultaneously. 
@@ -21,6 +22,8 @@ export class Contact extends Component{
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is: ' + JSON.stringify(values));
+        this.props.postFeedback(values.firstname, values.lastname,values.email, values.telnum, values.message);
+        console.log(values.firstname, values.lastname,values.email, values.telnum, values.messages)
         this.props.resetFeedbackForm();
         // event.preventDefault();
     }

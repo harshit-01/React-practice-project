@@ -9,7 +9,7 @@ import Home from './HomeComponent';
 import { Switch, Route, Redirect,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { addComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders,postFeedback} from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import '../App.css';
 // app is the parent class menu is the child class 
@@ -30,7 +30,9 @@ const mapDispatchToProps = (dispatch)=>({
       fetchDishes:()=>{dispatch(fetchDishes())},
       resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
       fetchPromos:()=>{dispatch(fetchPromos())},
-      fetchComments:()=>{dispatch(fetchComments())}
+      fetchComments:()=>{dispatch(fetchComments())},
+      fetchLeaders:()=>{dispatch(fetchLeaders())},
+      postFeedback:(firstname,lastname,email ,telnum,message)=>{dispatch(postFeedback(firstname,lastname,email ,telnum,message))}
 })
 
 class Main extends Component {
@@ -43,6 +45,7 @@ class Main extends Component {
       this.props.fetchDishes();
       this.props.fetchComments();
       this.props.fetchPromos();
+      this.props.fetchLeaders();
      }
       onDishSelected(dishId){
          this.setState({selectedDish:dishId}); // cannot directly change the state
@@ -57,7 +60,9 @@ render() {
                 promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
                 promoLoading={this.props.promotions.isLoading}
                 promoErrMess={this.props.promotions.errMess}
-                leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+                leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+                leadersLoading={this.props.leaders.isLoading}
+                leadersErrMess={this.props.leaders.errMess}
             />
         );
   }
@@ -83,8 +88,9 @@ render() {
         <Route path="/home" component ={Homepage} />
         <Route exact path="/menu" component ={()=><Menu dishes={this.props.dishes.dishes} dish={this.props.dishes.dishes.filter((dish) =>dish.id === this.props.selectedDish)[0]} comment={this.props.comments} onClick={(dishId)=>{this.onDishSelected(dishId)}} />} />
         <Route path="/menu/:dishId" component={DishWithId} />
-        <Route exact path="/aboutUs" component ={()=><About leaders={this.props.leaders} />} />
-        <Route exact path="/contactUs" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}/>
+        <Route exact path="/aboutUs" component ={()=><About leaders={this.props.leaders.leaders}/>} />
+        <Route exact path="/contactUs" component={() => <Contact  postFeedback ={this.props.postFeedback} resetFeedbackForm={this.props.resetFeedbackForm} 
+       />}/>
         <Redirect to="/home" />
        </Switch>
        </CSSTransition>
